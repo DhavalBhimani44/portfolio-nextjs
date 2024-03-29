@@ -4,7 +4,10 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type BlogPostDocumentDataSlicesSlice = ImageBlockSlice | TextBlockSlice;
+type BlogPostDocumentDataSlicesSlice =
+  | TerminalSlice
+  | ImageBlockSlice
+  | TextBlockSlice;
 
 /**
  * Content for Blog Post documents
@@ -918,6 +921,61 @@ export type TechListSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Primary content in *Terminal → Primary*
+ */
+export interface TerminalSliceDefaultPrimary {
+  /**
+   * Terminal Type field in *Terminal → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: terminal.primary.terminal_type
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  terminal_type: prismic.KeyTextField;
+
+  /**
+   * Code String field in *Terminal → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: terminal.primary.code_string
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  code_string: prismic.RichTextField;
+}
+
+/**
+ * Default variation for Terminal Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type TerminalSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<TerminalSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Terminal*
+ */
+type TerminalSliceVariation = TerminalSliceDefault;
+
+/**
+ * Terminal Shared Slice
+ *
+ * - **API ID**: `terminal`
+ * - **Description**: Terminal
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type TerminalSlice = prismic.SharedSlice<
+  "terminal",
+  TerminalSliceVariation
+>;
+
+/**
  * Primary content in *TextBlock → Primary*
  */
 export interface TextBlockSliceDefaultPrimary {
@@ -1014,6 +1072,10 @@ declare module "@prismicio/client" {
       TechListSliceDefaultItem,
       TechListSliceVariation,
       TechListSliceDefault,
+      TerminalSlice,
+      TerminalSliceDefaultPrimary,
+      TerminalSliceVariation,
+      TerminalSliceDefault,
       TextBlockSlice,
       TextBlockSliceDefaultPrimary,
       TextBlockSliceVariation,
