@@ -19,7 +19,7 @@ const Terminal = ({ slice }: TerminalProps): JSX.Element => {
   const getCodeString = (richText: any): string => {
     let text = '';
     richText.forEach((element: any) => {
-      if (element.type === 'paragraph') {
+      if (element.type === 'preformatted') {
         text += element.text + ' ';
       } else if (element.type === 'list-item') {
         text += element.text + '\n';
@@ -32,7 +32,7 @@ const Terminal = ({ slice }: TerminalProps): JSX.Element => {
     const codeString = getCodeString(slice.primary.code_string);
     navigator.clipboard.writeText(codeString);
     setCopied(true);
-    setTimeout(() => setCopied(false), 4000); // Reset copied state after 4 seconds
+    setTimeout(() => setCopied(false), 3000); // Reset copied state after 4 seconds
   };
 
   return (
